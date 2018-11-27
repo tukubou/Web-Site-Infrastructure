@@ -5,9 +5,13 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require('./bootstrap')
+Vue.prototype.$http = axios // $httpを利用するためにつける
 
-window.Vue = require('vue');
+window.Vue = require('vue')
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
 
 /**
  * The following block of code may be used to automatically register your
@@ -22,6 +26,15 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
+Vue.component('vue-header', require('./components/Layouts/Header.vue'))
+
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        { path: '/books', component: require('./components/Books/Index.vue') },
+        { path: '/books/:id', component: require('./components/Books/Show.vue') },
+    ]
+})
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -29,5 +42,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
  */
 
 const app = new Vue({
+    router,
     el: '#app'
-});
+})
